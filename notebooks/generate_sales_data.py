@@ -3,9 +3,7 @@
 # COMMAND ----------
 
 import random
-import csv
 from datetime import date, timedelta
-from io import StringIO
 
 random.seed(42)
 
@@ -42,21 +40,32 @@ for _ in range(10000):
     sale_date = start_date + timedelta(days=random.randint(0, days_range))
     quantity  = random.randint(1, 10)
     revenue   = round(quantity * unit_price, 2)
-    rows.append([sale_date, product_id, product_name, category, quantity, unit_price, revenue])
+    rows.append((sale_date.isoformat(), product_id, product_name, category, quantity, unit_price, revenue))
 
 for row in rows[:5]:
     print(row)
 
 # COMMAND ----------
 
-output = StringIO()
-writer = csv.writer(output)
-writer.writerow(["date", "product_id", "product_name", "category", "quantity", "unit_price", "revenue"])
-writer.writerows(rows)
+from pyspark.sql.types import StructType, StructField, StringType, IntegerType, DoubleType
 
-dbutils.fs.put("/FileStore/sales.csv", output.getvalue(), overwrite=True)
-print("Saved to /FileStore/sales.csv")
+schema = StructType([
+    StructField("date",         StringType(),  False),
+    StructField("product_id",   StringType(),  False),
+    StructField("product_name", StringType(),  False),
+    StructField("category",     StringType(),  False),
+    StructField("quantity",     IntegerType(), False),
+    StructField("unit_price",   DoubleType(),  False),
+    StructField("revenue",      DoubleType(),  False),
+])
+
+df = spark.createDataFrame(rows, schema)
+display(df)
 
 # COMMAND ----------
 
-display(dbutils.fs.ls("/FileStore/"))
+spark.sql("CREATE SCHEMA IF NOT EXISTS main.sales_data")
+
+df.write.format("delta").mode("overwrite").saveAsTable("main.sales_data.raw_sales")
+
+print("Done. Table: main.sales_data.raw_sales")
