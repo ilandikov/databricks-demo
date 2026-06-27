@@ -8,18 +8,33 @@ from databricks.sdk.service.dashboards import Dashboard
 
 w = WorkspaceClient()
 
+# COMMAND ----------
+
+for d in w.lakeview.list():
+    w.lakeview.trash(dashboard_id=d.dashboard_id)
+    print(f"Deleted: {d.display_name} ({d.dashboard_id})")
+
+# COMMAND ----------
+
 dashboard_spec = {
     "datasets": [
         {
             "name": "monthly_revenue",
             "displayName": "Monthly Revenue",
-            "query": "SELECT month, total_revenue FROM workspace.sales_data.monthly_revenue ORDER BY month"
+            "queryLines": [
+                "SELECT month, total_revenue\n",
+                "FROM workspace.sales_data.monthly_revenue\n",
+                "ORDER BY month"
+            ]
         }
         # add more datasets here — one per widget
     ],
     "pages": [
         {
+            "name": "sales_page",
             "displayName": "Sales Analysis",
+            "pageType": "PAGE_TYPE_CANVAS",
+            "layoutVersion": "GRID_V1",
             "layout": [
                 {
                     "widget": {
@@ -33,25 +48,31 @@ dashboard_spec = {
                                         {"name": "month",         "expression": "`month`"},
                                         {"name": "total_revenue", "expression": "`total_revenue`"}
                                     ],
-                                    "disaggregated": False
+                                    "disaggregated": True
                                 }
                             }
                         ],
                         "spec": {
                             "version": 3,
+                            "frame": {"title": "Monthly Revenue", "showTitle": True},
                             "widgetType": "bar",
                             "encodings": {
                                 "x": {"fieldName": "month",         "scale": {"type": "categorical"}},
                                 "y": {"fieldName": "total_revenue", "scale": {"type": "quantitative"}}
-                            }
+                            },
+                            "data": {"queryName": "main_query"}
                         }
                     },
                     "position": {"x": 0, "y": 0, "width": 6, "height": 6}
                 }
-                # add more widgets here
+                # add more widgets here — increment y by 6 for each new row
             ]
         }
-    ]
+    ],
+    "uiSettings": {
+        "theme": {"widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED"},
+        "applyModeEnabled": False
+    }
 }
 
 dashboard = w.lakeview.create(dashboard=Dashboard(
@@ -63,5 +84,4 @@ print(f"Dashboard created: {dashboard.dashboard_id}")
 
 # COMMAND ----------
 
-# Open the dashboard in the browser
 displayHTML(f'<a href="/dashboardsv3/{dashboard.dashboard_id}" target="_blank">Open dashboard</a>')
