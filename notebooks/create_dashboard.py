@@ -16,6 +16,15 @@ for d in w.lakeview.list():
 
 # COMMAND ----------
 
+def heading_widget(name, text, y):
+    return {
+        "widget": {
+            "name": name,
+            "multilineTextboxSpec": {"lines": [text]}
+        },
+        "position": {"x": 0, "y": y, "width": 12, "height": 2}
+    }
+
 def bar_widget(name, title, dataset_name, fields, x_field, y_field, position):
     return {
         "widget": {
@@ -151,7 +160,7 @@ dashboard_spec = {
             "pageType": "PAGE_TYPE_CANVAS",
             "layoutVersion": "GRID_V1",
             "layout": [
-                # Row 1 — 3 bar charts
+                heading_widget("heading_overview", "## General sales overview", y=0),
                 bar_widget(
                     name="monthly_revenue_chart",
                     title="Monthly Revenue",
@@ -159,7 +168,7 @@ dashboard_spec = {
                     fields=["month", "total_revenue"],
                     x_field="month",
                     y_field="total_revenue",
-                    position={"x": 0, "y": 0, "width": 4, "height": 6}
+                    position={"x": 0, "y": 2, "width": 4, "height": 6}
                 ),
                 bar_widget(
                     name="units_sold_by_month_chart",
@@ -168,7 +177,7 @@ dashboard_spec = {
                     fields=["month", "units_sold"],
                     x_field="month",
                     y_field="units_sold",
-                    position={"x": 4, "y": 0, "width": 4, "height": 6}
+                    position={"x": 4, "y": 2, "width": 4, "height": 6}
                 ),
                 bar_widget(
                     name="revenue_by_category_chart",
@@ -177,67 +186,67 @@ dashboard_spec = {
                     fields=["category", "total_revenue"],
                     x_field="category",
                     y_field="total_revenue",
-                    position={"x": 8, "y": 0, "width": 4, "height": 6}
+                    position={"x": 8, "y": 2, "width": 4, "height": 6}
                 ),
-                # Row 2 — top products
+                heading_widget("heading_top_products", "## Top Products - never cut these, always have in stock", y=8),
                 table_widget(
                     name="top_products_by_month_table",
                     title="Top 3 Products By Month",
                     dataset_name="top_products_by_month",
                     fields=["month", "product_name", "category", "total_revenue"],
-                    position={"x": 0, "y": 6, "width": 6, "height": 6}
+                    position={"x": 0, "y": 10, "width": 6, "height": 6}
                 ),
                 table_widget(
                     name="top_products_table",
                     title="Top 10 Products",
                     dataset_name="top_products",
                     fields=["product_name", "category", "total_revenue"],
-                    position={"x": 6, "y": 6, "width": 6, "height": 6}
+                    position={"x": 6, "y": 10, "width": 6, "height": 6}
                 ),
-                # Row 3 — worst products
+                heading_widget("heading_worst_products", "## Worst Products - not worth selling", y=16),
                 table_widget(
                     name="worst_products_by_month_table",
                     title="Worst 3 Products By Month",
                     dataset_name="worst_products_by_month",
                     fields=["month", "product_name", "category", "total_revenue"],
-                    position={"x": 0, "y": 12, "width": 6, "height": 6}
+                    position={"x": 0, "y": 18, "width": 6, "height": 6}
                 ),
                 table_widget(
                     name="worst_products_table",
                     title="Worst 10 Products",
                     dataset_name="worst_products",
                     fields=["product_name", "category", "total_revenue"],
-                    position={"x": 6, "y": 12, "width": 6, "height": 6}
+                    position={"x": 6, "y": 18, "width": 6, "height": 6}
                 ),
-                # Row 4 — top categories
+                heading_widget("heading_top_categories", "## Top Categories - best categories to add products into", y=24),
                 table_widget(
                     name="top_categories_by_month_table",
                     title="Top 3 Categories By Month",
                     dataset_name="top_categories_by_month",
                     fields=["month", "category", "total_revenue"],
-                    position={"x": 0, "y": 18, "width": 6, "height": 6}
+                    position={"x": 0, "y": 26, "width": 6, "height": 6}
                 ),
                 table_widget(
                     name="top_categories_table",
                     title="Top Categories Overall",
                     dataset_name="top_categories",
                     fields=["category", "total_revenue"],
-                    position={"x": 6, "y": 18, "width": 6, "height": 6}
+                    position={"x": 6, "y": 26, "width": 6, "height": 6}
                 ),
-                # Row 5 — worst categories
+                heading_widget("heading_worst_categories", "## Worst Categories - underselling categories ot worth investing", y=32),
                 table_widget(
                     name="worst_categories_by_month_table",
                     title="Worst 3 Categories By Month",
                     dataset_name="worst_categories_by_month",
                     fields=["month", "category", "total_revenue"],
-                    position={"x": 0, "y": 24, "width": 6, "height": 6}
+                    position={"x": 0, "y": 34, "width": 6, "height": 6}
                 ),
                 table_widget(
                     name="worst_categories_table",
                     title="Worst Categories Overall",
                     dataset_name="worst_categories",
                     fields=["category", "total_revenue"],
-                    position={"x": 6, "y": 24, "width": 6, "height": 6}
+                    position={"x": 6, "y": 34, "width": 6, "height": 6}
                 ),
             ]
         }
