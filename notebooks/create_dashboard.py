@@ -26,7 +26,7 @@ dashboard_spec = {
                 "FROM workspace.sales_data.monthly_revenue\n",
                 "ORDER BY month"
             ]
-        }
+        },
         {
             "name": "top_products_by_month",
             "displayName": "Top Products By Month",
