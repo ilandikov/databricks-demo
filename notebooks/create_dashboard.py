@@ -84,8 +84,9 @@ dashboard_spec = {
                                     "datasetName": "top_products_by_month",
                                     "fields": [
                                         {"name": "month",         "expression": "`month`"},
-                                        {"name": "product_name", "expression": "`product_name`"},
-                                        {"name": "category", "expression": "`category`"}
+                                        {"name": "product_name",  "expression": "`product_name`"},
+                                        {"name": "category",      "expression": "`category`"},
+                                        {"name": "total_revenue", "expression": "`total_revenue`"}
                                     ],
                                     "disaggregated": True
                                 }
