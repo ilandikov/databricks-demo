@@ -94,10 +94,14 @@ dashboard_spec = {
                         "spec": {
                             "version": 3,
                             "frame": {"title": "Top Products By Month", "showTitle": True},
-                            "widgetType": "bar",
+                            "widgetType": "table",
                             "encodings": {
-                                "x": {"fieldName": "month",         "scale": {"type": "categorical"}},
-                                "y": {"fieldName": "total_revenue", "scale": {"type": "quantitative"}}
+                                "columns": [
+                                    {"fieldName": "month",        "displayName": "Month"},
+                                    {"fieldName": "product_name", "displayName": "Product"},
+                                    {"fieldName": "category",     "displayName": "Category"},
+                                    {"fieldName": "total_revenue","displayName": "Revenue"}
+                                ]
                             },
                             "data": {"queryName": "main_query"}
                         }
