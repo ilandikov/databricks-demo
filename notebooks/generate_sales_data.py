@@ -64,8 +64,8 @@ display(df)
 
 # COMMAND ----------
 
-spark.sql("CREATE SCHEMA IF NOT EXISTS main.sales_data")
+spark.sql("CREATE SCHEMA IF NOT EXISTS workspace.sales_data")
 
-df.write.format("delta").mode("overwrite").saveAsTable("main.sales_data.raw_sales")
+df.write.format("delta").mode("overwrite").saveAsTable("workspace.sales_data.raw_sales")
 
-print("Done. Table: main.sales_data.raw_sales")
+print("Done. Table: workspace.sales_data.raw_sales")

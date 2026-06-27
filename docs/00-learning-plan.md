@@ -38,7 +38,7 @@ A notebook creates tables, queries tables, deletes tables. It is not a table. Sa
 - `catalog.schema.table` answers: **where is this table?** (the address)
 - Delta answers: **how is this table stored?** (the format)
 
-A table at `main.sales.products` is backed by *some* storage format. In Databricks, that format is almost always Delta — which adds row-level updates, deletes, and version history on top of plain Parquet.
+A table at `workspace.sales.products` is backed by *some* storage format. In Databricks, that format is almost always Delta — which adds row-level updates, deletes, and version history on top of plain Parquet.
 
 ---
 
