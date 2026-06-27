@@ -27,6 +27,15 @@ dashboard_spec = {
                 "ORDER BY month"
             ]
         }
+        {
+            "name": "top_products_by_month",
+            "displayName": "Top Products By Month",
+            "queryLines": [
+                "SELECT month, product_name, category\n",
+                "FROM workspace.sales_data.top_products_by_month\n",
+                "ORDER BY month"
+            ]
+        }
         # add more datasets here — one per widget
     ],
     "pages": [
@@ -64,6 +73,36 @@ dashboard_spec = {
                         }
                     },
                     "position": {"x": 0, "y": 0, "width": 6, "height": 6}
+                },
+                {
+                    "widget": {
+                        "name": "top_products_by_month_chart",
+                        "queries": [
+                            {
+                                "name": "main_query",
+                                "query": {
+                                    "datasetName": "top_products_by_month",
+                                    "fields": [
+                                        {"name": "month",         "expression": "`month`"},
+                                        {"name": "product_name", "expression": "`product_name`"},
+                                        {"name": "category", "expression": "`category`"}
+                                    ],
+                                    "disaggregated": True
+                                }
+                            }
+                        ],
+                        "spec": {
+                            "version": 3,
+                            "frame": {"title": "Top Products By Month", "showTitle": True},
+                            "widgetType": "bar",
+                            "encodings": {
+                                "x": {"fieldName": "month",         "scale": {"type": "categorical"}},
+                                "y": {"fieldName": "total_revenue", "scale": {"type": "quantitative"}}
+                            },
+                            "data": {"queryName": "main_query"}
+                        }
+                    },
+                    "position": {"x": 0, "y": 0, "width": 12, "height": 12}
                 }
                 # add more widgets here — increment y by 6 for each new row
             ]
