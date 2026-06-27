@@ -93,7 +93,22 @@ dashboard_spec = {
             "QUALIFY ROW_NUMBER() OVER (PARTITION BY month ORDER BY total_revenue DESC) <= 3\n",
             "ORDER BY month ASC, total_revenue DESC\n"
         ]),
-        # add more datasets here
+        dataset("revenue_by_category", "Revenue By Category", [
+            "SELECT category, total_revenue\n",
+            "FROM workspace.sales_data.revenue_by_category\n",
+            "ORDER BY total_revenue DESC"
+        ]),
+        dataset("top_products", "Top Products", [
+            "SELECT product_name, category, total_revenue\n",
+            "FROM workspace.sales_data.top_products\n",
+            "ORDER BY total_revenue DESC\n",
+            "LIMIT 10"
+        ]),
+        dataset("units_sold_by_month", "Units Sold By Month", [
+            "SELECT month, units_sold\n",
+            "FROM workspace.sales_data.units_sold_by_month\n",
+            "ORDER BY month"
+        ]),
     ],
     "pages": [
         {
@@ -118,7 +133,31 @@ dashboard_spec = {
                     fields=["month", "product_name", "category", "total_revenue"],
                     position={"x": 0, "y": 6, "width": 12, "height": 6}
                 ),
-                # add more widgets here
+                bar_widget(
+                    name="revenue_by_category_chart",
+                    title="Revenue By Category",
+                    dataset_name="revenue_by_category",
+                    fields=["category", "total_revenue"],
+                    x_field="category",
+                    y_field="total_revenue",
+                    position={"x": 6, "y": 0, "width": 6, "height": 6}
+                ),
+                table_widget(
+                    name="top_products_table",
+                    title="Top 10 Products",
+                    dataset_name="top_products",
+                    fields=["product_name", "category", "total_revenue"],
+                    position={"x": 0, "y": 12, "width": 6, "height": 6}
+                ),
+                bar_widget(
+                    name="units_sold_by_month_chart",
+                    title="Units Sold By Month",
+                    dataset_name="units_sold_by_month",
+                    fields=["month", "units_sold"],
+                    x_field="month",
+                    y_field="units_sold",
+                    position={"x": 6, "y": 12, "width": 6, "height": 6}
+                ),
             ]
         }
     ],
