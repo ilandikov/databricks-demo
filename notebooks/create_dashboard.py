@@ -4,6 +4,7 @@
 
 import json
 from databricks.sdk import WorkspaceClient
+from databricks.sdk.service.dashboards import Dashboard
 
 w = WorkspaceClient()
 
@@ -53,10 +54,10 @@ dashboard_spec = {
     ]
 }
 
-dashboard = w.lakeview.create(
+dashboard = w.lakeview.create(Dashboard(
     display_name="Sales Analysis",
     serialized_dashboard=json.dumps(dashboard_spec)
-)
+))
 
 print(f"Dashboard created: {dashboard.dashboard_id}")
 
