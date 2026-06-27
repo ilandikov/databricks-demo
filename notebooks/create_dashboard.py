@@ -129,6 +129,7 @@ dashboard_spec = {
             "pageType": "PAGE_TYPE_CANVAS",
             "layoutVersion": "GRID_V1",
             "layout": [
+                # Row 1 — 3 bar charts
                 bar_widget(
                     name="monthly_revenue_chart",
                     title="Monthly Revenue",
@@ -136,30 +137,7 @@ dashboard_spec = {
                     fields=["month", "total_revenue"],
                     x_field="month",
                     y_field="total_revenue",
-                    position={"x": 0, "y": 0, "width": 6, "height": 6}
-                ),
-                table_widget(
-                    name="top_products_by_month_table",
-                    title="Top Products By Month",
-                    dataset_name="top_products_by_month",
-                    fields=["month", "product_name", "category", "total_revenue"],
-                    position={"x": 0, "y": 6, "width": 12, "height": 6}
-                ),
-                bar_widget(
-                    name="revenue_by_category_chart",
-                    title="Revenue By Category",
-                    dataset_name="revenue_by_category",
-                    fields=["category", "total_revenue"],
-                    x_field="category",
-                    y_field="total_revenue",
-                    position={"x": 6, "y": 0, "width": 6, "height": 6}
-                ),
-                table_widget(
-                    name="top_products_table",
-                    title="Top 10 Products",
-                    dataset_name="top_products",
-                    fields=["product_name", "category", "total_revenue"],
-                    position={"x": 0, "y": 12, "width": 6, "height": 6}
+                    position={"x": 0, "y": 0, "width": 4, "height": 6}
                 ),
                 bar_widget(
                     name="units_sold_by_month_chart",
@@ -168,21 +146,46 @@ dashboard_spec = {
                     fields=["month", "units_sold"],
                     x_field="month",
                     y_field="units_sold",
-                    position={"x": 6, "y": 12, "width": 6, "height": 6}
+                    position={"x": 4, "y": 0, "width": 4, "height": 6}
+                ),
+                bar_widget(
+                    name="revenue_by_category_chart",
+                    title="Revenue By Category",
+                    dataset_name="revenue_by_category",
+                    fields=["category", "total_revenue"],
+                    x_field="category",
+                    y_field="total_revenue",
+                    position={"x": 8, "y": 0, "width": 4, "height": 6}
+                ),
+                # Row 2 — top products
+                table_widget(
+                    name="top_products_by_month_table",
+                    title="Top 3 Products By Month",
+                    dataset_name="top_products_by_month",
+                    fields=["month", "product_name", "category", "total_revenue"],
+                    position={"x": 0, "y": 6, "width": 6, "height": 6}
+                ),
+                table_widget(
+                    name="top_products_table",
+                    title="Top 10 Products",
+                    dataset_name="top_products",
+                    fields=["product_name", "category", "total_revenue"],
+                    position={"x": 6, "y": 6, "width": 6, "height": 6}
+                ),
+                # Row 3 — worst products
+                table_widget(
+                    name="worst_products_by_month_table",
+                    title="Worst 3 Products By Month",
+                    dataset_name="worst_products_by_month",
+                    fields=["month", "product_name", "category", "total_revenue"],
+                    position={"x": 0, "y": 12, "width": 6, "height": 6}
                 ),
                 table_widget(
                     name="worst_products_table",
                     title="Worst 10 Products",
                     dataset_name="worst_products",
                     fields=["product_name", "category", "total_revenue"],
-                    position={"x": 0, "y": 18, "width": 6, "height": 6}
-                ),
-                table_widget(
-                    name="worst_products_by_month_table",
-                    title="Worst 3 Products By Month",
-                    dataset_name="worst_products_by_month",
-                    fields=["month", "product_name", "category", "total_revenue"],
-                    position={"x": 6, "y": 18, "width": 6, "height": 6}
+                    position={"x": 6, "y": 12, "width": 6, "height": 6}
                 ),
             ]
         }
