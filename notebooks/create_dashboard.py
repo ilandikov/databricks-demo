@@ -108,7 +108,7 @@ dashboard_spec = {
                             "data": {"queryName": "main_query"}
                         }
                     },
-                    "position": {"x": 0, "y": 0, "width": 12, "height": 12}
+                    "position": {"x": 0, "y": 6, "width": 12, "height": 6}
                 }
                 # add more widgets here — increment y by 6 for each new row
             ]
@@ -125,7 +125,8 @@ dashboard = w.lakeview.create(dashboard=Dashboard(
     serialized_dashboard=json.dumps(dashboard_spec)
 ))
 
-print(f"Dashboard created: {dashboard.dashboard_id}")
+w.lakeview.publish(dashboard_id=dashboard.dashboard_id)
+print(f"Dashboard created and published: {dashboard.dashboard_id}")
 
 # COMMAND ----------
 
