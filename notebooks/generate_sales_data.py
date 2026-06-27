@@ -80,7 +80,7 @@ PRODUCTS = [
     ("P060", "Air Freshener",     "Automotive",     9.99),
 ]
 
-start_date = date(2023, 1, 1)
+start_date = date(2020, 1, 1)
 end_date   = date(2024, 12, 31)
 days_range = (end_date - start_date).days
 
