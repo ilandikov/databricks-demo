@@ -23,6 +23,10 @@ Before touching code, you need to know what the objects are. Think of it like le
 | **Catalog / Schema / Table** | An **address** for where data lives: `catalog.schema.table`. Like a URL. The catalog is the top-level namespace, schema is a group of tables, table is the actual data. Same concept as `database.schema.table` in PostgreSQL. |
 | **Parquet** | A file format for storing tabular data — binary and columnar, unlike CSV which is plain text rows. Faster to query, smaller on disk. You never open it by hand; Spark reads and writes it automatically. |
 | **Delta Table** | A table backed by Parquet files **plus a transaction log**. The address (`catalog.schema.table`) tells you *where* a table lives; Delta tells you *how* it's stored. Delta adds: update/delete rows, see previous versions (time travel), safe concurrent writes. Default table format in Databricks. |
+| **Apache Spark** | A distributed computation engine — a program that splits a big task across multiple machines and runs the pieces in parallel, then combines the results. Normal Python runs on one machine; if your data is 100GB you are limited by that machine's RAM. Spark splits the data into chunks, sends each chunk to a different machine in the cluster, processes them simultaneously, and merges the output. For small datasets the difference is invisible, but the API is the same whether you have 1000 rows or 1 billion. Runs on your cluster. You never interact with it directly. |
+| **PySpark** | The Python library that lets you talk to Spark from Python. When you write PySpark code in a notebook, it translates your Python into Spark operations and executes them on the cluster. `spark` (the entry point) and `DataFrame` are both part of PySpark. |
+| **Cell** | A single runnable block of code inside a notebook. Cells share the same Python session — a variable declared in cell 1 is accessible in cell 2. The split is not about scope isolation; it is about execution control: you run cells one at a time, inspect the output, and decide whether to continue. Think of it as a REPL where you hit Enter after each logical chunk. |
+| **DataFrame** | An in-memory table of data with named columns and typed rows — the main object you work with in PySpark. Think of it as an array of objects in JavaScript, but distributed across a cluster. It is lazy: no computation happens when you define transformations — Spark waits until you call an action (`display()`, `.write`, `.count()`) and then executes everything at once. A DataFrame is temporary — it lives in memory during a notebook session. To persist it, you write it to a Delta table. |
 | **DBFS** | Databricks File System — where you upload raw files (CSV, JSON) before loading them into tables |
 | **Lakeview Dashboard** | Databricks' built-in BI dashboard — reads from SQL Warehouse, no external tool needed |
 
@@ -55,13 +59,10 @@ Doc: `02-generate-fake-data.md`
 - Schema: `date, product_id, product_name, category, quantity, unit_price`
 - ~1000 rows, 3 months of data, 5 categories, 20 products
 
-### Step 3 — Upload CSV and create a Delta table
-Doc: `03-ingest-csv.md`
-- Upload `sales.csv` to DBFS via UI or API
-- Load it into a Delta table using PySpark in a notebook
-- Understand: raw file → DataFrame → Delta table
+### ~~Step 3 — Upload CSV and create a Delta table~~ (merged into Step 2)
+DBFS was disabled on the free tier, so we skipped the intermediate CSV file and wrote directly to a Delta table from the generation notebook. Result: `workspace.sales_data.raw_sales`.
 
-### Step 4 — Transform data with PySpark
+### Step 3 — Transform data with PySpark
 Doc: `04-transform.md`
 - Create aggregated tables using PySpark:
   - Monthly revenue
