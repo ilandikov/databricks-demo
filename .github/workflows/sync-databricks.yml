@@ -10,8 +10,9 @@ jobs:
     steps:
       - name: Pull latest changes into Databricks repo
         run: |
-          curl -sf -X PATCH \
+          curl -s -X PATCH \
             https://${{ secrets.DATABRICKS_HOST }}/api/2.0/repos/${{ secrets.DATABRICKS_REPO_ID }} \
             -H "Authorization: Bearer ${{ secrets.DATABRICKS_TOKEN }}" \
             -H "Content-Type: application/json" \
-            -d '{"branch": "main"}'
+            -d '{"branch": "main"}' \
+            -w "\nHTTP status: %{http_code}\n"
