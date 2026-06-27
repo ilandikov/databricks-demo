@@ -50,6 +50,24 @@ display(top_products_by_month)
 
 # COMMAND ----------
 
+worst_products = df.groupBy("product_id", "product_name", "category") \
+    .agg(round(sum("revenue"), 2).alias("total_revenue")) \
+    .orderBy(col("total_revenue").asc())
+
+worst_products.write.format("delta").mode("overwrite").saveAsTable("workspace.sales_data.worst_products")
+display(worst_products)
+
+# COMMAND ----------
+
+worst_products_by_month = df.groupBy("year", "month", "product_id", "product_name", "category") \
+    .agg(round(sum("revenue"), 2).alias("total_revenue")) \
+    .orderBy("year", "month", col("total_revenue").asc())
+
+worst_products_by_month.write.format("delta").mode("overwrite").saveAsTable("workspace.sales_data.worst_products_by_month")
+display(worst_products_by_month)
+
+# COMMAND ----------
+
 units_sold_by_month = df.groupBy("year", "month") \
     .agg(sum("quantity").alias("units_sold")) \
     .orderBy("year", "month")

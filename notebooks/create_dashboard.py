@@ -109,6 +109,18 @@ dashboard_spec = {
             "FROM workspace.sales_data.units_sold_by_month\n",
             "ORDER BY month"
         ]),
+        dataset("worst_products", "Worst Products", [
+            "SELECT product_name, category, total_revenue\n",
+            "FROM workspace.sales_data.worst_products\n",
+            "ORDER BY total_revenue ASC\n",
+            "LIMIT 10"
+        ]),
+        dataset("worst_products_by_month", "Worst Products By Month", [
+            "SELECT month, product_name, category, total_revenue\n",
+            "FROM workspace.sales_data.worst_products_by_month\n",
+            "QUALIFY ROW_NUMBER() OVER (PARTITION BY month ORDER BY total_revenue ASC) <= 3\n",
+            "ORDER BY month ASC, total_revenue ASC\n"
+        ]),
     ],
     "pages": [
         {
@@ -157,6 +169,20 @@ dashboard_spec = {
                     x_field="month",
                     y_field="units_sold",
                     position={"x": 6, "y": 12, "width": 6, "height": 6}
+                ),
+                table_widget(
+                    name="worst_products_table",
+                    title="Worst 10 Products",
+                    dataset_name="worst_products",
+                    fields=["product_name", "category", "total_revenue"],
+                    position={"x": 0, "y": 18, "width": 6, "height": 6}
+                ),
+                table_widget(
+                    name="worst_products_by_month_table",
+                    title="Worst 3 Products By Month",
+                    dataset_name="worst_products_by_month",
+                    fields=["month", "product_name", "category", "total_revenue"],
+                    position={"x": 6, "y": 18, "width": 6, "height": 6}
                 ),
             ]
         }
