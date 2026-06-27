@@ -28,6 +28,16 @@
 - `SELECT 1` returned a result in SQL Editor
 - `print("hello")` ran successfully in a notebook
 
+## Git setup (done)
+
+7. Created a local git repo in the project folder and pushed to `https://github.com/ilandikov/databricks-demo.git`.
+
+8. Connected the GitHub repo to Databricks:
+   - Workspace → username folder → kebab menu (⋮) → **Add** → **Git folder**
+   - Repo URL: `https://github.com/ilandikov/databricks-demo.git`, branch: `main`
+
+Any `.py` file pushed to `notebooks/` now appears as a runnable notebook in Databricks automatically.
+
 ## Next
 
 Step 2 — generate the fake sales CSV with Python.
