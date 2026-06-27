@@ -54,7 +54,7 @@ dashboard_spec = {
     ]
 }
 
-dashboard = w.lakeview.create(Dashboard(
+dashboard = w.lakeview.create(dashboard=Dashboard(
     display_name="Sales Analysis",
     serialized_dashboard=json.dumps(dashboard_spec)
 ))
