@@ -68,6 +68,42 @@ display(worst_products_by_month)
 
 # COMMAND ----------
 
+top_categories = df.groupBy("category") \
+    .agg(round(sum("revenue"), 2).alias("total_revenue")) \
+    .orderBy(col("total_revenue").desc())
+
+top_categories.write.format("delta").mode("overwrite").saveAsTable("workspace.sales_data.top_categories")
+display(top_categories)
+
+# COMMAND ----------
+
+top_categories_by_month = df.groupBy("year", "month", "category") \
+    .agg(round(sum("revenue"), 2).alias("total_revenue")) \
+    .orderBy("year", "month", col("total_revenue").desc())
+
+top_categories_by_month.write.format("delta").mode("overwrite").saveAsTable("workspace.sales_data.top_categories_by_month")
+display(top_categories_by_month)
+
+# COMMAND ----------
+
+worst_categories = df.groupBy("category") \
+    .agg(round(sum("revenue"), 2).alias("total_revenue")) \
+    .orderBy(col("total_revenue").asc())
+
+worst_categories.write.format("delta").mode("overwrite").saveAsTable("workspace.sales_data.worst_categories")
+display(worst_categories)
+
+# COMMAND ----------
+
+worst_categories_by_month = df.groupBy("year", "month", "category") \
+    .agg(round(sum("revenue"), 2).alias("total_revenue")) \
+    .orderBy("year", "month", col("total_revenue").asc())
+
+worst_categories_by_month.write.format("delta").mode("overwrite").saveAsTable("workspace.sales_data.worst_categories_by_month")
+display(worst_categories_by_month)
+
+# COMMAND ----------
+
 units_sold_by_month = df.groupBy("year", "month") \
     .agg(sum("quantity").alias("units_sold")) \
     .orderBy("year", "month")

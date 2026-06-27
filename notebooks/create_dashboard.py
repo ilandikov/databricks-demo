@@ -121,6 +121,28 @@ dashboard_spec = {
             "QUALIFY ROW_NUMBER() OVER (PARTITION BY month ORDER BY total_revenue ASC) <= 3\n",
             "ORDER BY month ASC, total_revenue ASC\n"
         ]),
+        dataset("top_categories", "Top Categories", [
+            "SELECT category, total_revenue\n",
+            "FROM workspace.sales_data.top_categories\n",
+            "ORDER BY total_revenue DESC"
+        ]),
+        dataset("top_categories_by_month", "Top Categories By Month", [
+            "SELECT month, category, total_revenue\n",
+            "FROM workspace.sales_data.top_categories_by_month\n",
+            "QUALIFY ROW_NUMBER() OVER (PARTITION BY month ORDER BY total_revenue DESC) <= 3\n",
+            "ORDER BY month ASC, total_revenue DESC\n"
+        ]),
+        dataset("worst_categories", "Worst Categories", [
+            "SELECT category, total_revenue\n",
+            "FROM workspace.sales_data.worst_categories\n",
+            "ORDER BY total_revenue ASC"
+        ]),
+        dataset("worst_categories_by_month", "Worst Categories By Month", [
+            "SELECT month, category, total_revenue\n",
+            "FROM workspace.sales_data.worst_categories_by_month\n",
+            "QUALIFY ROW_NUMBER() OVER (PARTITION BY month ORDER BY total_revenue ASC) <= 3\n",
+            "ORDER BY month ASC, total_revenue ASC\n"
+        ]),
     ],
     "pages": [
         {
@@ -186,6 +208,36 @@ dashboard_spec = {
                     dataset_name="worst_products",
                     fields=["product_name", "category", "total_revenue"],
                     position={"x": 6, "y": 12, "width": 6, "height": 6}
+                ),
+                # Row 4 — top categories
+                table_widget(
+                    name="top_categories_by_month_table",
+                    title="Top 3 Categories By Month",
+                    dataset_name="top_categories_by_month",
+                    fields=["month", "category", "total_revenue"],
+                    position={"x": 0, "y": 18, "width": 6, "height": 6}
+                ),
+                table_widget(
+                    name="top_categories_table",
+                    title="Top Categories Overall",
+                    dataset_name="top_categories",
+                    fields=["category", "total_revenue"],
+                    position={"x": 6, "y": 18, "width": 6, "height": 6}
+                ),
+                # Row 5 — worst categories
+                table_widget(
+                    name="worst_categories_by_month_table",
+                    title="Worst 3 Categories By Month",
+                    dataset_name="worst_categories_by_month",
+                    fields=["month", "category", "total_revenue"],
+                    position={"x": 0, "y": 24, "width": 6, "height": 6}
+                ),
+                table_widget(
+                    name="worst_categories_table",
+                    title="Worst Categories Overall",
+                    dataset_name="worst_categories",
+                    fields=["category", "total_revenue"],
+                    position={"x": 6, "y": 24, "width": 6, "height": 6}
                 ),
             ]
         }
