@@ -262,7 +262,8 @@ dashboard = w.lakeview.create(dashboard=Dashboard(
     serialized_dashboard=json.dumps(dashboard_spec)
 ))
 
-w.lakeview.publish(dashboard_id=dashboard.dashboard_id)
+warehouse_id = next(wh.id for wh in w.warehouses.list())
+w.lakeview.publish(dashboard_id=dashboard.dashboard_id, warehouse_id=warehouse_id)
 print(f"Dashboard created and published: {dashboard.dashboard_id}")
 
 # COMMAND ----------
