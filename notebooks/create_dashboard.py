@@ -31,9 +31,10 @@ dashboard_spec = {
             "name": "top_products_by_month",
             "displayName": "Top Products By Month",
             "queryLines": [
-                "SELECT month, product_name, category\n",
+                "SELECT month, product_name, category, total_revenue\n",
                 "FROM workspace.sales_data.top_products_by_month\n",
-                "ORDER BY month"
+                "QUALIFY ROW_NUMBER() OVER (PARTITION BY month ORDER BY total_revenue DESC) <= 3\n",
+                "ORDER BY month ASC, total_revenue DESC\n"
             ]
         }
         # add more datasets here — one per widget
